@@ -25,10 +25,13 @@
      ```bash
      pwd
      ```
-
-   - ตัวอย่างผลลัพธ์เมื่อใช้คำสั่ง `pwd` และกด Enter:
+     ตัวอย่างผลลัพธ์เมื่อใช้คำสั่ง `pwd` และกด Enter:
      ```bash
      /var/www/html/robot-car-project/robot-webapp
      ```
+
+   ## การ ssh ผ่าน vscode
+
+   
 
 
