@@ -1,18 +1,19 @@
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
+from flask_cors import CORS  # Enable CORS for cross-origin requests
 import serial
 import time
-
 # Set up serial connection to the esp (adjust as needed)
 try:
-    ser = serial.Serial('/dev/cu.URT0', 9600, timeout=1)  # Adjust with the correct serial port
+    ser = serial.Serial('/dev/serial0', 9600, timeout=1)  # Adjust with the correct serial port
     time.sleep(2)  # Allow time for the connection to initialize
 except serial.SerialException:
     ser = None
     print("Error: Could not open serial connection. Check the port.")
 
-# Initialize Flask app and API
+# Initialize Flask app and enable CORS
 app = Flask(__name__)
+CORS(app)  # Enable CORS on the Flask app
 api = Api(app)
 
 # Function to send a command to the esp

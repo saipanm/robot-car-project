@@ -1,3 +1,4 @@
 .DS_store
 ./back-end/__pycache__
 ./back-end/nohup.out
+./web-cam/__pycache__
