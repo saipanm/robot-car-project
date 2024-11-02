@@ -33,7 +33,7 @@
    ## การ ssh ผ่าน vscode
 
     1. กดตามรูปด้านล่าง
-    
+
     ![image](./readme-picture/Screenshot%202567-11-02%20at%2020.20.55.png)
 
     2. กด Remote-SSH: Connect to Host... ตามรูปด้านล่าง
@@ -53,10 +53,12 @@
      /var/www/html/robot-car-project/robot-webapp
      ```
     6. แก้ไขไฟล์ได้ตามปกติ
-    7. save ไฟล์ โดย กด ctrl + shift + p บน vscode แล้วพิมพ์ save as root แล้วกด Enter
-    8. cd ไปที่โฟลเดอร์ robot-webapp แล้วพิมพ์คำสั่งด้านล่าง
-    ```bash
-     npm run build
-     ```
+
+    7. Save ไฟล์ โดยกด `ctrl + shift + p` บน VSCode แล้วพิมพ์ `save as root` แล้วกด Enter
+    
+    8. `cd` ไปที่โฟลเดอร์ [robot-webapp](http://_vscodecontentref_/0) แล้วพิมพ์คำสั่งด้านล่าง
+        ```bash
+        npm run build
+        ```
 
 
