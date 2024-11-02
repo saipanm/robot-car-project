@@ -19,8 +19,8 @@
 }
 .d-pad {
   position: relative;
-  width: 180px; /* Increase width */
-  height: 180px; /* Increase height */
+  width: 200px; /* Increase width */
+  height: 200px; /* Increase height */
   border-radius: 48%;
   overflow: hidden;
 }
