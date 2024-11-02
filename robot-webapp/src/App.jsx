@@ -6,7 +6,7 @@ const App = () => {
   //ส่งคำสั่ง control
   const sendCommand = async (command) => {
     try {
-      const response = await fetch('http://localhost:5000/api/robot/control', {
+      const response = await fetch('http://localhost:1212/api/robot/control', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
