@@ -1,59 +1,59 @@
 # Robot Control API
 
-This project provides a Flask-based API to control a robot car via an ESP8266 microcontroller using serial communication.
+โปรเจกต์นี้เป็น API ที่ใช้ Flask เพื่อควบคุมรถหุ่นยนต์ โดย Raspberry Pi จะรับข้อมูลจาก ESP8266 ผ่านการสื่อสารแบบ Serial
 
-## Prerequisites
+## ข้อกำหนดเบื้องต้น
 
-1. **Python**: Ensure you have Python installed on your system.
-2. **Flask**: Install Flask and other dependencies by running `pip install -r requirements.txt` after cloning the repository.
+1. **Python**: ตรวจสอบให้แน่ใจว่าคุณได้ติดตั้ง Python ในระบบของคุณแล้ว
+2. **Flask**: ติดตั้ง Flask และ dependencies อื่นๆ โดยใช้คำสั่ง `pip install -r requirements.txt` หลังจากที่โคลนรีโพซิทอรีเรียบร้อยแล้ว
 
-## Installation
+## การติดตั้ง
 
-1. **Clone the Repository**:
+1. **โคลนรีโพซิทอรี**:
     ```bash
     git clone <repository-url>
     cd back-end
     ```
 
-2. **Install Dependencies**:
+2. **ติดตั้ง dependencies**:
     ```bash
     pip install -r requirements.txt
     ```
 
-## Configuration
+## การตั้งค่า
 
-1. **Set Up Serial Connection**:
-    - Ensure the ESP8266 is connected to the correct serial port.
-    - Adjust the serial port in the code if necessary:
+1. **ตั้งค่าการเชื่อมต่อ Serial**:
+    - ตรวจสอบให้แน่ใจว่า ESP8266 ถูกเชื่อมต่อกับพอร์ต Serial ที่ถูกต้องของ Raspberry Pi
+    - ปรับพอร์ต Serial ในโค้ดหากจำเป็น:
       ```python
-      ser = serial.Serial('/dev/serial0', 9600, timeout=1)  # Replace '/dev/serial0' with the actual port
+      ser = serial.Serial('/dev/serial0', 9600, timeout=1)  # แทนที่ '/dev/serial0' ด้วยพอร์ตที่ถูกต้อง
       ```
 
-## Running the API
+## การรัน API
 
-1. **Start the Flask API**:
+1. **เริ่มรัน Flask API**:
     ```bash
     flask run
     ```
-    Alternatively, for a production environment, you can use `gunicorn`:
+    หรือสำหรับการใช้งานในสภาพแวดล้อม production สามารถใช้ `gunicorn`:
     ```bash
     gunicorn -w 4 -b 0.0.0.0:1212 robot_control_api:app
     ```
 
 ## API Endpoints
 
-### 1. Move the Robot
+### 1. เคลื่อนที่หุ่นยนต์
 
 - **Endpoint**: `/api/move`
 - **Method**: `POST`
-- **Description**: Moves the robot in the specified direction.
-- **Request Body**:
+- **คำอธิบาย**: เคลื่อนที่หุ่นยนต์ในทิศทางที่กำหนด
+- **ตัวอย่างคำขอ**:
     ```json
     {
         "direction": "forward", "reverse", "left", "right", "stop"
     }
     ```
-- **Response**:
+- **การตอบสนอง**:
     ```json
     {
         "status": "moving <direction>",
@@ -61,12 +61,12 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
     }
     ```
 
-### 2. Check API and Serial Connection Status
+### 2. ตรวจสอบสถานะของ API และการเชื่อมต่อ Serial
 
 - **Endpoint**: `/api/status`
 - **Method**: `GET`
-- **Description**: Checks the status of the API and the serial connection.
-- **Response**:
+- **คำอธิบาย**: ตรวจสอบสถานะของ API และการเชื่อมต่อ Serial
+- **การตอบสนอง**:
     ```json
     {
         "status": "API is running",
@@ -74,11 +74,11 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
     }
     ```
 
-## Code Explanation
+## คำอธิบายโค้ด
 
-### Serial Communication
+### การสื่อสารแบบ Serial
 
-The function **`send_command`** sends a command to the ESP8266 and waits for a response.
+ฟังก์ชัน **`send_command`** ส่งคำสั่งไปยัง ESP8266 และรอรับการตอบสนอง
 
     ```python
     def send_command(command):
@@ -92,7 +92,7 @@ The function **`send_command`** sends a command to the ESP8266 and waits for a r
 
 ### API Resources
 
-- **MoveResource**: Handles POST requests to move the robot.
+- **MoveResource**: จัดการคำขอ POST เพื่อควบคุมการเคลื่อนที่ของหุ่นยนต์
     ```python
     class MoveResource(Resource):
         def post(self):
@@ -107,7 +107,7 @@ The function **`send_command`** sends a command to the ESP8266 and waits for a r
             return {"status": f"moving {direction}", "response": response}
     ```
 
-- **StatusResource**: Handles GET requests to check the API and serial connection status.
+- **StatusResource**: จัดการคำขอ GET เพื่อเช็คสถานะของ API และการเชื่อมต่อ Serial
     ```python
     class StatusResource(Resource):
         def get(self):
