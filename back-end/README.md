@@ -80,7 +80,7 @@
 
 ฟังก์ชัน **`send_command`** ส่งคำสั่งไปยัง ESP8266 และรอรับการตอบสนอง
 
-    ```python
+ ```python
     def send_command(command):
         if ser and ser.is_open:
             ser.write((command + "\n").encode('utf-8'))
@@ -88,23 +88,24 @@
             return response if response else "No response"
         else:
             return "No connection"
-    ```
+  ```
 
 ### API Resources
 
 - **MoveResource**: จัดการคำขอ POST เพื่อควบคุมการเคลื่อนที่ของหุ่นยนต์
-    ```python
-    class MoveResource(Resource):
-        def post(self):
-            data = request.json
-            direction = data.get("direction")
-            if not direction:
-                return {"error": "No direction provided"}, 400
-            valid_directions = ["forward", "reverse", "left", "right", "stop"]
-            if direction not in valid_directions:
-                return {"error": "Invalid direction"}, 400
-            response = send_command(direction)
-            return {"status": f"moving {direction}", "response": response}
+  
+  ```python
+        class MoveResource(Resource):
+            def post(self):
+                data = request.json
+                direction = data.get("direction")
+                if not direction:
+                    return {"error": "No direction provided"}, 400
+                valid_directions = ["forward", "reverse", "left", "right", "stop"]
+                if direction not in valid_directions:
+                    return {"error": "Invalid direction"}, 400
+                response = send_command(direction)
+                return {"status": f"moving {direction}", "response": response}
     ```
 
 - **StatusResource**: จัดการคำขอ GET เพื่อเช็คสถานะของ API และการเชื่อมต่อ Serial
