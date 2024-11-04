@@ -12,7 +12,7 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
 1. **Clone the Repository**:
     ```bash
     git clone <repository-url>
-    cd <repository-directory>
+    cd back-end
     ```
 
 2. **Install Dependencies**:
@@ -50,7 +50,7 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
 - **Request Body**:
     ```json
     {
-        "direction": "forward" | "reverse" | "left" | "right" | "stop"
+        "direction": "forward", "reverse", "left", "right", "stop"
     }
     ```
 - **Response**:
@@ -70,7 +70,7 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
     ```json
     {
         "status": "API is running",
-        "serial_connection": "connected" | "disconnected"
+        "serial_connection": "connected" , "disconnected"
     }
     ```
 
