@@ -34,11 +34,11 @@
 
     1. กดตามรูปด้านล่าง
 
-    ![image](./readme-picture/Screenshot%202567-11-02%20at%2020.20.55.png)
+    ![image](~/readme-picture/Screenshot%202567-11-02%20at%2020.20.55.png)
 
     2. กด Remote-SSH: Connect to Host... ตามรูปด้านล่าง
 
-    ![image](./readme-picture/Screenshot%202567-11-02%20at%2020.21.53.png)
+    ![image](~/readme-picture/Screenshot%202567-11-02%20at%2020.21.53.png)
 
     3. พิม password และกด Enter
     ```bash
@@ -46,7 +46,7 @@
      ```
     4. กด Open Folder ตามรูปด้านล่าง
 
-    ![image](./readme-picture/Screenshot%202567-11-02%20at%2020.23.20.png)
+    ![image](~/readme-picture/Screenshot%202567-11-02%20at%2020.23.20.png)
 
     5. กด Choose Folder ด้วย path ดังนี้
     ```bash
