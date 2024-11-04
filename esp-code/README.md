@@ -1,19 +1,85 @@
-### Serial Communication
+# การควบคุมรถหุ่นยนต์ด้วย ESP8266
 
-Once the code is uploaded, you can communicate with the ESP8266 using serial commands. Here are the steps:
+โปรเจกต์นี้ใช้ไมโครคอนโทรลเลอร์ ESP8266 ในการควบคุมรถหุ่นยนต์ให้เคลื่อนไหวตามคำสั่งเบื้องต้น โดยรถหุ่นยนต์จะตอบสนองต่อคำสั่งทาง Serial เพื่อเดินหน้า ถอยหลัง เลี้ยวซ้าย เลี้ยวขวา และหยุด โดยใช้ PWM สำหรับควบคุมความเร็วและ GPIO สำหรับควบคุมทิศทาง
 
-1. **Open Serial Monitor**:
-   - In the Arduino IDE, go to `Tools` > `Serial Monitor` or press `Ctrl + Shift + M`.
-   - Set the baud rate to `9600`.
+## ส่วนประกอบ
 
-2. **Send Commands**:
-   - Use the following commands for testing the robot car. Type the commands in the Serial Monitor and press `Enter` to control the robot car:
-     - **`forward`**: Move the robot car forward.
-     - **`reverse`**: Move the robot car in reverse.
-     - **`left`**: Turn the robot car left.
-     - **`right`**: Turn the robot car right.
-     - **`stop`**: Stop all movements of the robot car.
+- **ESP8266**: ไมโครคอนโทรลเลอร์เพื่อรับคำสั่งและควบคุมมอเตอร์
+- **ไดร์ฟมอเตอร์**: ควบคุมทิศทางและความเร็วของล้อหุ่นยนต์
+- **มอเตอร์ DC**: ขับเคลื่อนล้อของหุ่นยนต์
+- **การสื่อสารแบบ Serial**: รับคำสั่งการเคลื่อนไหวจากแหล่งภายนอก
 
-3. **Example Commands**:
-   - To move the robot car forward, type `forward` and press `Enter`.
-   - To stop the robot car, type `stop` and press `Enter`.
+## การกำหนดขา (Pin Configuration)
+
+- **ขาควบคุมทิศทางมอเตอร์**:
+    - `LEFTF1` (D6): มอเตอร์ซ้ายเดินหน้า
+    - `LEFTF2` (D7): มอเตอร์ซ้ายถอยหลัง
+    - `RIGHTF1` (D8): มอเตอร์ขวาเดินหน้า
+    - `RIGHTF2` (D0): มอเตอร์ขวาถอยหลัง
+
+- **ขาควบคุมความเร็ว PWM**:
+    - `SPEED_A` (D3): ควบคุมความเร็วมอเตอร์ซ้าย
+    - `SPEED_B` (D4): ควบคุมความเร็วมอเตอร์ขวา
+
+## คุณสมบัติ
+
+1. **การควบคุมทิศทาง**: รับคำสั่งเพื่อเดินหน้า ถอยหลัง เลี้ยวซ้าย เลี้ยวขวา และหยุด
+2. **การควบคุมความเร็ว PWM**: ตั้งค่าความเร็วที่ 50% ของ duty cycle
+3. **การจัดการ Timeout**: การเคลื่อนไหวแต่ละครั้งจะอยู่ในช่วงเวลา 500 มิลลิวินาที เพื่อป้องกันการเคลื่อนไหวต่อเนื่องโดยไม่ได้รับคำสั่งใหม่
+4. **การแยกคำสั่ง**: รับคำสั่งผ่านทาง Serial และประมวลผลเพื่อควบคุมการเคลื่อนไหว
+
+## การติดตั้ง
+
+1. เชื่อมต่อ ESP8266 กับไดร์ฟมอเตอร์และมอเตอร์ตามการกำหนดขาด้านบน
+2. อัปโหลดโค้ดไปยัง ESP8266
+3. ใช้ Serial Interface (เช่น Arduino Serial Monitor) เพื่อส่งคำสั่ง
+
+## คำสั่ง
+
+คำสั่งจะถูกส่งผ่าน Serial และประมวลผลดังนี้:
+
+- `forward`: เดินหน้ารถหุ่นยนต์เป็นเวลา 500 มิลลิวินาที
+- `reverse`: ถอยหลังรถหุ่นยนต์เป็นเวลา 500 มิลลิวินาที
+- `left`: เลี้ยวซ้ายรถหุ่นยนต์เป็นเวลา 500 มิลลิวินาที
+- `right`: เลี้ยวขวารถหุ่นยนต์เป็นเวลา 500 มิลลิวินาที
+- `stop`: หยุดรถหุ่นยนต์ทันที
+
+## ตัวอย่างการแสดงผลทาง Serial
+
+เมื่อรถหุ่นยนต์ได้รับคำสั่งผ่าน Serial จะมีการแสดงผลตอบกลับใน Serial Monitor ดังนี้:
+
+    ```
+    Moving Forward
+    Timeout: Stopping Forward Movement
+    Reversing
+    Timeout: Stopping Reverse Movement
+    Turning Left
+    Timeout: Stopping Left Turn
+    Turning Right
+    Timeout: Stopping Right Turn
+    Stopping
+    ```
+
+## คำอธิบายโค้ด
+
+### ฟังก์ชันการเคลื่อนไหว
+
+- **`startForward()`**: ตั้งค่าขาเพื่อให้รถหุ่นยนต์เดินหน้าและเริ่มจับเวลา
+- **`reverse()`**: ตั้งค่าขาเพื่อให้รถหุ่นยนต์ถอยหลังและเริ่มจับเวลา
+- **`moveLeft()`**: ตั้งค่าขาเพื่อให้รถหุ่นยนต์เลี้ยวซ้ายและเริ่มจับเวลา
+- **`moveRight()`**: ตั้งค่าขาเพื่อให้รถหุ่นยนต์เลี้ยวขวาและเริ่มจับเวลา
+- **`stop()`**: หยุดการเคลื่อนไหวทั้งหมดโดยตั้งค่าขาของมอเตอร์เป็น LOW
+
+### ตัวอย่างโค้ด
+
+ฟังก์ชันการเคลื่อนไหวแต่ละฟังก์ชันใช้ `digitalWrite` ในการควบคุมทิศทางของมอเตอร์และใช้ flag เพื่อติดตามสถานะของหุ่นยนต์:
+
+```cpp
+void startForward() {
+    digitalWrite(LEFTF1, HIGH);
+    digitalWrite(LEFTF2, LOW);
+    digitalWrite(RIGHTF1, HIGH);
+    digitalWrite(RIGHTF2, LOW);
+    moveStartTime = millis();
+    isMovingForward = true;
+}
