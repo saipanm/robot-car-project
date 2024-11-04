@@ -56,7 +56,7 @@
 
     7. Save ไฟล์ โดยกด `ctrl + shift + p` บน VSCode แล้วพิมพ์ `save as root` แล้วกด Enter
 
-    8. `cd` ไปที่โฟลเดอร์ `robot-webapp` (http://_vscodecontentref_/0) แล้วพิมพ์คำสั่งด้านล่าง
+    8. `cd` ไปที่โฟลเดอร์ `robot-webapp` แล้วพิมพ์คำสั่งด้านล่าง
         ```bash
         npm run build
         ```
