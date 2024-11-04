@@ -5,7 +5,7 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
 ## Prerequisites
 
 1. **Python**: Ensure you have Python installed on your system.
-2. **Flask**: Install Flask and other dependencies using `pip`.
+2. **Flask**: Install Flask and other dependencies by running `pip install -r requirements.txt` after cloning the repository.
 
 ## Installation
 
@@ -26,7 +26,7 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
     - Ensure the ESP8266 is connected to the correct serial port.
     - Adjust the serial port in the code if necessary:
       ```python
-      ser = serial.Serial('/dev/serial0', 9600, timeout=1)  # Adjust with the correct serial port
+      ser = serial.Serial('/dev/serial0', 9600, timeout=1)  # Replace '/dev/serial0' with the actual port
       ```
 
 ## Running the API
@@ -35,8 +35,7 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
     ```bash
     flask run
     ```
-
-    Alternatively, you can use `gunicorn` for production:
+    Alternatively, for a production environment, you can use `gunicorn`:
     ```bash
     gunicorn -w 4 -b 0.0.0.0:1212 robot_control_api:app
     ```
@@ -79,7 +78,8 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
 
 ### Serial Communication
 
-- **[send_command(command)](http://_vscodecontentref_/0)**: Sends a command to the ESP8266 and waits for a response.
+The function **`send_command`** sends a command to the ESP8266 and waits for a response.
+
     ```python
     def send_command(command):
         if ser and ser.is_open:
@@ -92,7 +92,7 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
 
 ### API Resources
 
-- **[MoveResource] Handles POST requests to move the robot.
+- **MoveResource**: Handles POST requests to move the robot.
     ```python
     class MoveResource(Resource):
         def post(self):
@@ -107,11 +107,10 @@ This project provides a Flask-based API to control a robot car via an ESP8266 mi
             return {"status": f"moving {direction}", "response": response}
     ```
 
-- **[StatusResource]: Handles GET requests to check the API and serial connection status.
+- **StatusResource**: Handles GET requests to check the API and serial connection status.
     ```python
     class StatusResource(Resource):
         def get(self):
             connection_status = "connected" if ser and ser.is_open else "disconnected"
             return {"status": "API is running", "serial_connection": connection_status}
     ```
-
