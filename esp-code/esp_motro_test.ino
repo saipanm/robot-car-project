@@ -48,6 +48,7 @@ void setup() {
 }
 
 void loop() {
+    
     // Read serial input manually
     while (Serial.available()) {
         char inChar = (char)Serial.read();
