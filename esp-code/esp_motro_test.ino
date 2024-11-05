@@ -1,10 +1,10 @@
 #include <ESP8266WiFi.h>
 
 // Define motor direction control pins
-#define LEFTF1 D6   // Replacing D1 with D6
-#define LEFTF2 D7   // Replacing D2 with D7
-#define RIGHTF1 D8  // Replacing D5 with D8
-#define RIGHTF2 D0  // Replacing D6 with D0
+#define LEFTF1 D6  
+#define LEFTF2 D7  
+#define RIGHTF1 D8 
+#define RIGHTF2 D0 
 
 // Define PWM speed control pins
 #define SPEED_A D3
