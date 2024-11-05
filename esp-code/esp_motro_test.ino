@@ -12,10 +12,10 @@
 
 String inputString = "";       // Stores incoming serial data
 bool stringComplete = false;   // Flag for checking if the message is complete
-const int fixedSpeed = 512;    // 50% duty cycle (0-1023 scale for ESP8266)
+const int fixedSpeed = 307; 
 
 unsigned long moveStartTime = 0;  // To track the start time of the movement
-const unsigned long moveDuration = 200;  // Movement duration (500 ms)
+const unsigned long moveDuration = 100;  // Movement duration (500 ms)
 bool isMovingForward = false;    // Flags for direction control
 bool isMovingReverse = false;
 bool isMovingLeft = false;
