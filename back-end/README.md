@@ -11,7 +11,7 @@
 
 1. **โคลนรีโพซิทอรี**:
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/saipanm/robot-car-project.git
     cd back-end
     ```
 
@@ -31,14 +31,20 @@
 
 ## การรัน API
 
-1. **เริ่มรัน Flask API**:
+1. **สร้างbashfileเริ่มรัน Flask API**:
+
+    สร้าง file name `start.sh` และเขียนโค้ดดังนี้:
+
     ```bash
-    flask run
+        export FLASK_APP=robot_control_api.py  
+        export FLASK_ENV=production
+        gunicorn -w 4 -b 0.0.0.0:1212 robot_control_api:app  
     ```
-    หรือสำหรับการใช้งานในสภาพแวดล้อม production สามารถใช้ `gunicorn`:
+2. **รัน API อัตโนมัติใช้ pm2 โดยรันจาก bash file**:
     ```bash
-    gunicorn -w 4 -b 0.0.0.0:1212 robot_control_api:app
+    pm2 start start_api.sh
     ```
+
 
 ## API Endpoints
 
@@ -83,10 +89,18 @@
  ```python
     def send_command(command):
         if ser and ser.is_open:
-            ser.write((command + "\n").encode('utf-8'))
+            ser.write((command + "\n").encode('utf-8'))  
+            print(f"Sent to esp: {command}")
+
             response = ser.readline().decode('utf-8', errors='ignore').strip()
-            return response if response else "No response"
+            if response:
+                print(f"esp response: {response}")
+                return response
+            else:
+                print("No response from esp.")
+                return "No response"
         else:
+            print("Error: Serial connection is not open.")
             return "No connection"
   ```
 
@@ -97,15 +111,20 @@
   ```python
         class MoveResource(Resource):
             def post(self):
+                
                 data = request.json
                 direction = data.get("direction")
+
                 if not direction:
                     return {"error": "No direction provided"}, 400
+
                 valid_directions = ["forward", "reverse", "left", "right", "stop"]
                 if direction not in valid_directions:
                     return {"error": "Invalid direction"}, 400
+
                 response = send_command(direction)
                 return {"status": f"moving {direction}", "response": response}
+
     ```
 
 - **StatusResource**: จัดการคำขอ GET เพื่อเช็คสถานะของ API และการเชื่อมต่อ Serial
